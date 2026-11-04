@@ -116,7 +116,62 @@ no una landing genérica.
 Nicolás mantiene el sitio editando el código directamente (precios, servicios, textos).
 No se construye panel de administración/CMS en esta fase.
 
-## 9. Pendientes antes de lanzar (no bloquean el desarrollo)
+## 9. Estructura del proyecto
+
+Next.js (App Router) con nombres en español/inglés simple y consistente según el tipo
+de archivo (rutas en español porque son URLs visibles al usuario; código interno en
+inglés porque es la convención del ecosistema). Cada carpeta tiene una responsabilidad
+única para que sea fácil ubicar y modificar cosas sin tocar lo demás.
+
+```
+tarot-aqui/
+├── app/
+│   ├── page.tsx                       # Landing ("/")
+│   ├── layout.tsx
+│   ├── globals.css
+│   ├── pedir/
+│   │   ├── page.tsx                   # Elegir servicio + formulario de pedido
+│   │   └── confirmacion/
+│   │       └── page.tsx               # Página post-pago
+│   └── api/
+│       ├── orders/
+│       │   └── route.ts               # POST: crea un pedido en estado "pending"
+│       └── payments/
+│           ├── mercadopago/webhook/route.ts
+│           └── stripe/webhook/route.ts
+├── components/
+│   ├── ui/                            # Componentes base de shadcn/ui
+│   ├── landing/                       # hero, about-sofia, services, footer
+│   └── order/                         # service-selector, order-form, payment-picker
+├── lib/
+│   ├── db/
+│   │   ├── schema.ts                  # Tabla `orders` (Drizzle)
+│   │   ├── client.ts                  # Conexión a Neon Postgres
+│   │   └── orders.ts                  # createOrder, markOrderAsPaid, etc.
+│   ├── payments/
+│   │   ├── mercadopago.ts             # Crear preferencia / verificar webhook
+│   │   └── stripe.ts                  # Crear checkout session / verificar webhook
+│   ├── notifications/
+│   │   └── whatsapp.ts                # Enviar aviso de pedido nuevo a Sofía
+│   ├── services.ts                    # Config estática: tipos de lectura y precios
+│   └── validation.ts                  # Esquemas (zod) del formulario de pedido
+├── drizzle/                           # Migraciones generadas
+├── docs/superpowers/specs/            # Specs de diseño (este documento)
+├── drizzle.config.ts
+├── .env.example
+└── package.json
+```
+
+**Reglas de nombres:**
+- Carpetas y archivos de rutas (`app/`) en minúsculas con guiones, en español para
+  que coincida con la URL (`/pedir`, no `/order`).
+- Componentes en `PascalCase` dentro de archivos `kebab-case.tsx` (convención estándar
+  de Next.js/shadcn).
+- Funciones y variables en inglés dentro de `lib/`, ya que es código interno sin
+  exposición directa al usuario — mantiene consistencia con las librerías que se usan
+  (Drizzle, Stripe SDK, etc.).
+
+## 10. Pendientes antes de lanzar (no bloquean el desarrollo)
 
 - Definir precio de la sesión en vivo de 30-40 min.
 - Dar de alta la cuenta/número de WhatsApp Business API para las notificaciones.
