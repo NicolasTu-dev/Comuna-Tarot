@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { listServices, isPayable } from "@/lib/services";
 import { buildWhatsAppLink } from "@/lib/whatsapp-link";
 import { Button } from "@/components/ui/button";
@@ -9,46 +12,57 @@ export function Services() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-24">
-      <h2 className="font-display text-center text-3xl text-primary">Servicios</h2>
-      <div className="mt-10 grid gap-6 sm:grid-cols-3">
-        {listServices().map((service) => (
-          <Card key={service.id} className="flex flex-col justify-between">
-            <CardHeader>
-              <CardTitle>{service.name}</CardTitle>
-              <CardDescription>{service.description}</CardDescription>
-            </CardHeader>
-            <CardFooter className="flex flex-col items-start gap-3">
-              <p className="font-display text-xl text-primary">
-                {isPayable(service)
-                  ? `$${service.priceArs} ARS / $${service.priceUsd} USD`
-                  : "A coordinar"}
-              </p>
-              {isPayable(service) ? (
-                <Button
-                  nativeButton={false}
-                  render={<Link href={`/pedir?servicio=${service.id}`} />}
-                >
-                  Pedir lectura
-                </Button>
-              ) : (
-                <Button
-                  nativeButton={false}
-                  render={
-                    <a
-                      href={buildWhatsAppLink(
-                        whatsappNumber,
-                        `Hola Sofía, quiero coordinar una sesión en vivo de tarot.`
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    />
-                  }
-                >
-                  Consultar por WhatsApp
-                </Button>
-              )}
-            </CardFooter>
-          </Card>
+      <div className="divider-flourish mb-12">
+        <span className="font-display text-xs tracking-[0.35em] uppercase">Servicios</span>
+      </div>
+      <div className="grid gap-8 sm:grid-cols-3">
+        {listServices().map((service, i) => (
+          <motion.div
+            key={service.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: i * 0.12 }}
+            whileHover={{ y: -6 }}
+            className="group"
+          >
+            <Card className="flex h-full flex-col justify-between border-primary/25 bg-gradient-to-b from-card to-background transition-shadow duration-300 group-hover:border-primary/60 group-hover:shadow-[0_0_30px_-8px_oklch(0.8_0.15_83/0.5)]">
+              <CardHeader>
+                <CardTitle className="font-display text-lg tracking-wide">
+                  {service.name}
+                </CardTitle>
+                <CardDescription>{service.description}</CardDescription>
+              </CardHeader>
+              <CardFooter className="flex flex-col items-start gap-3">
+                <p className="font-display text-xl text-primary">
+                  {isPayable(service)
+                    ? `$${service.priceArs} ARS / $${service.priceUsd} USD`
+                    : "A coordinar"}
+                </p>
+                {isPayable(service) ? (
+                  <Button nativeButton={false} render={<Link href={`/pedir?servicio=${service.id}`} />}>
+                    Pedir lectura
+                  </Button>
+                ) : (
+                  <Button
+                    nativeButton={false}
+                    render={
+                      <a
+                        href={buildWhatsAppLink(
+                          whatsappNumber,
+                          `Hola Sofía, quiero coordinar una sesión en vivo de tarot.`
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    }
+                  >
+                    Consultar por WhatsApp
+                  </Button>
+                )}
+              </CardFooter>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </section>

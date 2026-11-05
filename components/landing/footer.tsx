@@ -4,16 +4,18 @@ export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_SOFIA_WHATSAPP_NUMBER!;
 
   return (
-    <footer className="border-t border-border px-6 py-10 text-center text-sm text-muted-foreground">
+    <footer className="border-t border-primary/20 px-6 py-12 text-center text-sm text-muted-foreground">
       <a
         href={buildWhatsAppLink(whatsappNumber, "Hola Sofía!")}
         target="_blank"
         rel="noopener noreferrer"
-        className="underline"
+        className="text-primary underline underline-offset-4 transition-colors hover:text-accent"
       >
         Escribir por WhatsApp
       </a>
-      <p className="mt-2">Tarot aquí 🔑 — lecturas de tarot online</p>
+      <p className="font-display mt-4 text-xs tracking-[0.3em] text-foreground/60 uppercase">
+        Tarot aquí 🔑
+      </p>
     </footer>
   );
 }

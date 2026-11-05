@@ -5,24 +5,39 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.08 0.02 300);
-  --foreground: oklch(0.96 0.02 80);
-  --card: oklch(0.12 0.03 300);
-  --card-foreground: oklch(0.96 0.02 80);
-  --popover: oklch(0.12 0.03 300);
-  --popover-foreground: oklch(0.96 0.02 80);
-  --primary: oklch(0.78 0.14 85);
-  --primary-foreground: oklch(0.15 0.02 300);
-  --secondary: oklch(0.32 0.12 300);
-  --secondary-foreground: oklch(0.96 0.02 80);
-  --muted: oklch(0.2 0.03 300);
-  --muted-foreground: oklch(0.7 0.03 80);
-  --accent: oklch(0.65 0.18 40);
-  --accent-foreground: oklch(0.15 0.02 300);
+
+  /* Ink — near-black violet, not flat black */
+  --background: oklch(0.1 0.025 300);
+  --foreground: oklch(0.95 0.025 75);
+
+  /* Parchment card surface, warm off-white ink on it */
+  --card: oklch(0.14 0.03 305);
+  --card-foreground: oklch(0.95 0.025 75);
+  --popover: oklch(0.14 0.03 305);
+  --popover-foreground: oklch(0.95 0.025 75);
+
+  /* Gilt — the metal on every card edge */
+  --primary: oklch(0.8 0.15 83);
+  --primary-foreground: oklch(0.14 0.03 305);
+
+  /* Dusk violet */
+  --secondary: oklch(0.34 0.13 305);
+  --secondary-foreground: oklch(0.95 0.025 75);
+
+  --muted: oklch(0.2 0.035 305);
+  --muted-foreground: oklch(0.72 0.04 290);
+
+  /* Ember — the warm end of Sofía's gradient */
+  --accent: oklch(0.64 0.19 38);
+  --accent-foreground: oklch(0.14 0.03 305);
+
+  /* Magenta — the cool end of Sofía's gradient */
+  --magenta: oklch(0.52 0.19 350);
+
   --destructive: oklch(0.6 0.22 25);
-  --border: oklch(0.25 0.04 300);
-  --input: oklch(0.25 0.04 300);
-  --ring: oklch(0.78 0.14 85);
+  --border: oklch(0.3 0.05 305 / 40%);
+  --input: oklch(0.3 0.05 305);
+  --ring: oklch(0.8 0.15 83);
 }
 
 @theme inline {
@@ -40,11 +55,12 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-magenta: var(--magenta);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: var(--font-cormorant);
+  --font-display: var(--font-cinzel);
   --font-sans: var(--font-manrope);
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -55,4 +71,78 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+/* Ambient glow field — Sofía's IG gradient (ember → magenta → violet), slow drift */
+.glow-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow-field::before,
+.glow-field::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+
+.glow-field::before {
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle, var(--accent), transparent 70%);
+}
+
+.glow-field::after {
+  bottom: -15%;
+  right: -10%;
+  background: radial-gradient(circle, var(--magenta), transparent 70%);
+  animation-duration: 28s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6%, 8%) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-field::before,
+  .glow-field::after {
+    animation: none;
+  }
+}
+
+/* Section divider — a gilt hairline with a small diamond mark, like a chapter break */
+.divider-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--primary);
+}
+
+.divider-flourish::before,
+.divider-flourish::after {
+  content: "";
+  height: 1px;
+  width: 4rem;
+  background: linear-gradient(90deg, transparent, var(--primary));
+}
+
+.divider-flourish::after {
+  background: linear-gradient(90deg, var(--primary), transparent);
 }
