@@ -1,7 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-process.env.STRIPE_SECRET_KEY = "sk_test_dummy";
-
 const { sessionsCreateMock, constructEventMock } = vi.hoisted(() => {
   return {
     sessionsCreateMock: vi.fn(),
