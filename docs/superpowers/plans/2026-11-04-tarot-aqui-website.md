@@ -1034,11 +1034,20 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const preferenceCreateMock = vi.fn();
 const paymentGetMock = vi.fn();
 
-vi.mock("mercadopago", () => ({
-  MercadoPagoConfig: vi.fn(),
-  Preference: vi.fn().mockImplementation(() => ({ create: preferenceCreateMock })),
-  Payment: vi.fn().mockImplementation(() => ({ get: paymentGetMock })),
-}));
+vi.mock("mercadopago", () => {
+  const MockPreference = class {
+    create = preferenceCreateMock;
+  };
+  const MockPayment = class {
+    get = paymentGetMock;
+  };
+
+  return {
+    MercadoPagoConfig: vi.fn(),
+    Preference: MockPreference,
+    Payment: MockPayment,
+  };
+});
 
 import {
   createMercadoPagoPreference,
@@ -1211,12 +1220,14 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const sessionsCreateMock = vi.fn();
 const constructEventMock = vi.fn();
 
-vi.mock("stripe", () => ({
-  default: vi.fn().mockImplementation(() => ({
-    checkout: { sessions: { create: sessionsCreateMock } },
-    webhooks: { constructEvent: constructEventMock },
-  })),
-}));
+vi.mock("stripe", () => {
+  const MockStripe = class {
+    checkout = { sessions: { create: sessionsCreateMock } };
+    webhooks = { constructEvent: constructEventMock };
+  };
+
+  return { default: MockStripe };
+});
 
 import {
   createStripeCheckoutSession,
