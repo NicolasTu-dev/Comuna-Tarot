@@ -651,11 +651,12 @@ export function listServices(): Service[] {
 
 export function isPayable(
   service: Service
-): service is Service & { priceArs: number; priceUsd: number } {
+): service is Service & { id: PayableServiceId; priceArs: number; priceUsd: number } {
   return service.priceArs !== null && service.priceUsd !== null;
 }
 
 export function listPayableServices(): (Service & {
+  id: PayableServiceId;
   priceArs: number;
   priceUsd: number;
 })[] {
