@@ -15,7 +15,7 @@ export const orderFormSchema = z.object({
       "Ingresá un número de WhatsApp válido, con código de país (ej. +5491122334455)"
     ),
   serviceId: z.enum(PAYABLE_SERVICE_IDS, {
-    errorMap: () => ({ message: "Elegí un servicio válido" }),
+    error: "Elegí un servicio válido",
   }),
   question: z
     .string()
@@ -23,7 +23,7 @@ export const orderFormSchema = z.object({
     .min(5, "Contanos un poco más sobre tu consulta")
     .max(1000, "Tu consulta es demasiado larga"),
   paymentProvider: z.enum(["mercadopago", "stripe"], {
-    errorMap: () => ({ message: "Elegí un método de pago" }),
+    error: "Elegí un método de pago",
   }),
 });
 
