@@ -1217,8 +1217,10 @@ Create `lib/payments/stripe.test.ts`:
 ```ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const sessionsCreateMock = vi.fn();
-const constructEventMock = vi.fn();
+const { sessionsCreateMock, constructEventMock } = vi.hoisted(() => ({
+  sessionsCreateMock: vi.fn(),
+  constructEventMock: vi.fn(),
+}));
 
 vi.mock("stripe", () => {
   const MockStripe = class {
@@ -1228,7 +1230,11 @@ vi.mock("stripe", () => {
 
   return { default: MockStripe };
 });
+```
 
+`sessionsCreateMock`/`constructEventMock` use `vi.hoisted()` here (unlike Task 10's Mercado Pago mocks, which don't need it): `lib/payments/stripe.ts` constructs `new Stripe(...)` at module top level, so the mock factory runs during `import`, before a plain `const x = vi.fn()` below it would have executed — `vi.hoisted()` runs the mock's setup before any imports to avoid the resulting TDZ error.
+
+```ts
 import {
   createStripeCheckoutSession,
   constructStripeEvent,
