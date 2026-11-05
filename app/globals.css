@@ -6,25 +6,28 @@
 :root {
   --radius: 0.75rem;
 
-  /* Ink — near-black violet, not flat black */
-  --background: oklch(0.1 0.025 300);
+  /* Ink — near-black violet, deeper than before, not flat black */
+  --background: oklch(0.07 0.02 295);
   --foreground: oklch(0.95 0.025 75);
 
   /* Parchment card surface, warm off-white ink on it */
-  --card: oklch(0.14 0.03 305);
+  --card: oklch(0.12 0.03 305);
   --card-foreground: oklch(0.95 0.025 75);
-  --popover: oklch(0.14 0.03 305);
+  --popover: oklch(0.12 0.03 305);
   --popover-foreground: oklch(0.95 0.025 75);
 
   /* Gilt — the metal on every card edge */
   --primary: oklch(0.8 0.15 83);
   --primary-foreground: oklch(0.14 0.03 305);
 
+  /* Silver — the cooler metal accent, used for celestial/decorative details */
+  --silver: oklch(0.88 0.015 270);
+
   /* Dusk violet */
   --secondary: oklch(0.34 0.13 305);
   --secondary-foreground: oklch(0.95 0.025 75);
 
-  --muted: oklch(0.2 0.035 305);
+  --muted: oklch(0.18 0.03 305);
   --muted-foreground: oklch(0.72 0.04 290);
 
   /* Ember — the warm end of Sofía's gradient */
@@ -49,6 +52,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-silver: var(--silver);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -145,4 +149,88 @@ body {
 
 .divider-flourish::after {
   background: linear-gradient(90deg, var(--primary), transparent);
+}
+
+/* Starfield — small fixed dots behind all content, twinkling slowly */
+.star-field {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star-field__layer {
+  position: absolute;
+  inset: -10%;
+  background-repeat: repeat;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 20%, var(--silver), transparent),
+    radial-gradient(1px 1px at 30% 70%, var(--silver), transparent),
+    radial-gradient(1.5px 1.5px at 50% 15%, var(--primary), transparent),
+    radial-gradient(1px 1px at 70% 60%, var(--silver), transparent),
+    radial-gradient(1.5px 1.5px at 85% 35%, var(--silver), transparent),
+    radial-gradient(1px 1px at 92% 80%, var(--primary), transparent),
+    radial-gradient(1.5px 1.5px at 15% 90%, var(--silver), transparent),
+    radial-gradient(1px 1px at 45% 45%, var(--silver), transparent);
+  background-size: 180px 180px;
+  opacity: 0.5;
+  animation: twinkle 6s ease-in-out infinite alternate;
+}
+
+.star-field__layer--slow {
+  background-size: 260px 260px;
+  animation-duration: 9s;
+  animation-direction: alternate-reverse;
+  opacity: 0.3;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-field__layer,
+  .star-field__layer--slow {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* Shimmer — a bright pulse that sweeps across the divider's gilt line once */
+.divider-flourish {
+  position: relative;
+}
+
+.divider-flourish::before,
+.divider-flourish::after {
+  background-size: 200% 100%;
+  background-position: 200% 0;
+}
+
+.divider-flourish.in-view::before,
+.divider-flourish.in-view::after {
+  animation: shimmer 1.2s ease-out forwards;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .divider-flourish.in-view::before,
+  .divider-flourish.in-view::after {
+    animation: none;
+    background-position: 0 0;
+  }
 }
