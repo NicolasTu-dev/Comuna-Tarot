@@ -18,6 +18,7 @@
 - Out of scope: cursos / Phase 2 — do not build course-related pages or data models (spec §1).
 - Visual design: dark, mystical, premium aesthetic with animation (spec §6).
 - Package manager: npm.
+- `tailwindcss` and `@tailwindcss/postcss` must stay pinned to exact `4.1.18` — later 4.x releases break Next.js builds with `ERR_REQUIRE_ESM` (see Task 1 note). If any later task's tooling (e.g. `shadcn init`) bumps them, pin back to `4.1.18` and re-verify `npm run build`.
 - Services and prices (spec §2): Carta consejo $2000 ARS / 2 USD (asincrónica); Lectura de 2+ cartas $4000 ARS / 4 USD (asincrónica); Sesión en vivo 30-40 min (sin precio fijo aún — no pasa por el flujo de pago).
 
 ---
@@ -64,11 +65,13 @@
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/postcss": "^4.0.0"
+    "tailwindcss": "4.1.18",
+    "@tailwindcss/postcss": "4.1.18"
   }
 }
 ```
+
+`tailwindcss`/`@tailwindcss/postcss` are pinned to the exact `4.1.18` (not a `^4.0.0` range): versions 4.2.0+ bundle a `magic-string@1.x` (pure ESM) dependency that Next.js's synchronous PostCSS plugin loader cannot `require()`, breaking every build with `Error [ERR_REQUIRE_ESM]`. `4.1.18` is the last release on the dual CJS/ESM `magic-string@0.30.x` line and builds cleanly.
 
 - [ ] **Step 2: Create `tsconfig.json`**
 
