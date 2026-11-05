@@ -20,6 +20,13 @@ function makeRequest(body: unknown) {
   });
 }
 
+function makeQueryRequest(query: string, body?: string) {
+  return new NextRequest(`http://localhost/api/payments/mercadopago/webhook?${query}`, {
+    method: "POST",
+    body,
+  });
+}
+
 const order = {
   id: 42,
   customerName: "Ana",
@@ -114,5 +121,44 @@ describe("POST /api/payments/mercadopago/webhook", () => {
     expect(markOrderPaid).toHaveBeenCalledWith(42);
     expect(consoleErrorSpy).toHaveBeenCalled();
     consoleErrorSpy.mockRestore();
+  });
+
+  it("extracts type/data.id from query params when the body is empty (real Mercado Pago IPN format)", async () => {
+    vi.mocked(extractMercadoPagoPaymentId).mockReturnValue("999");
+    vi.mocked(getMercadoPagoPayment).mockResolvedValue({
+      status: "approved",
+      externalReference: "42",
+    });
+    vi.mocked(getOrderById).mockResolvedValue(order);
+
+    const response = await POST(makeQueryRequest("type=payment&data.id=999", ""));
+
+    expect(response.status).toBe(200);
+    expect(extractMercadoPagoPaymentId).toHaveBeenCalledWith({
+      type: "payment",
+      data: { id: "999" },
+    });
+    expect(markOrderPaid).toHaveBeenCalledWith(42);
+  });
+
+  it("extracts topic/id from query params for the legacy IPN format", async () => {
+    vi.mocked(extractMercadoPagoPaymentId).mockReturnValue(null);
+
+    const response = await POST(makeQueryRequest("topic=merchant_order&id=555", ""));
+
+    expect(response.status).toBe(200);
+    expect(extractMercadoPagoPaymentId).toHaveBeenCalledWith({
+      type: "merchant_order",
+      data: { id: "555" },
+    });
+    expect(getMercadoPagoPayment).not.toHaveBeenCalled();
+  });
+
+  it("does not crash when the request body is not valid JSON", async () => {
+    vi.mocked(extractMercadoPagoPaymentId).mockReturnValue(null);
+
+    const response = await POST(makeQueryRequest("", "not-json"));
+
+    expect(response.status).toBe(200);
   });
 });

@@ -6,8 +6,18 @@ import { sendOrderNotification } from "@/lib/notifications/whatsapp";
 import { getService } from "@/lib/services";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const paymentId = extractMercadoPagoPaymentId(body);
+  let jsonBody: { type?: string; data?: { id?: string } } = {};
+  try {
+    jsonBody = await request.json();
+  } catch {
+    jsonBody = {};
+  }
+
+  const params = request.nextUrl.searchParams;
+  const type = jsonBody.type ?? params.get("type") ?? params.get("topic") ?? undefined;
+  const id = jsonBody.data?.id ?? params.get("data.id") ?? params.get("id") ?? undefined;
+
+  const paymentId = extractMercadoPagoPaymentId({ type, data: id ? { id } : undefined });
 
   if (!paymentId) {
     return NextResponse.json({ ok: true });
