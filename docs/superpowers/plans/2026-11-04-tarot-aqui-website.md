@@ -18,6 +18,7 @@
 - Out of scope: cursos / Phase 2 — do not build course-related pages or data models (spec §1).
 - Visual design: dark, mystical, premium aesthetic with animation (spec §6).
 - Package manager: npm.
+- `jsdom` must stay pinned to exact `26.1.0` — `27.0.1`+ pulls in a pure-ESM `@csstools/css-calc` dependency that a CJS consumer `require()`s, breaking every jsdom-environment test with `ERR_REQUIRE_ESM` (same failure class as the tailwindcss issue below). Confirmed by the Task 16 implementer and independently reproduced by the controller.
 - `tailwindcss` and `@tailwindcss/postcss` must stay pinned to exact `4.1.18` — later 4.x releases break Next.js builds with `ERR_REQUIRE_ESM` (see Task 1 note). If any later task's tooling (e.g. `shadcn init`) bumps them, pin back to `4.1.18` and re-verify `npm run build`.
 - Services and prices (spec §2): Carta consejo $2000 ARS / 2 USD (asincrónica); Lectura de 2+ cartas $4000 ARS / 4 USD (asincrónica); Sesión en vivo 30-40 min (sin precio fijo aún — no pasa por el flujo de pago).
 
@@ -2772,7 +2773,11 @@ Sitio web de Sofía para vender lecturas de tarot online. Ver el diseño complet
 ## Desarrollo local
 
 1. `npm install`
-2. Copiar `.env.example` a `.env.local` y completar las variables (ver abajo).
+2. Copiar `.env.example` a `.env.local` y completar las variables (ver abajo). Importante:
+   `STRIPE_SECRET_KEY` y `MERCADOPAGO_ACCESS_TOKEN` tienen que tener *algún* valor (aunque
+   sea de prueba) incluso para correr `npm run build` localmente — los SDKs de Stripe y
+   Mercado Pago lanzan un error al importarse si la clave está vacía, y Next.js evalúa esos
+   módulos durante el build al recolectar la configuración de las rutas de API.
 3. Aplicar las migraciones: `npx drizzle-kit migrate`
 4. `npm run dev` y abrir `http://localhost:3000`
 
