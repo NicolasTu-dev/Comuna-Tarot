@@ -14,6 +14,14 @@ Sitio web de Sofía para vender lecturas de tarot online. Ver el diseño complet
 3. Aplicar las migraciones: `npx drizzle-kit migrate`
 4. `npm run dev` y abrir `http://localhost:3000`
 
+**Nota sobre `components/ui/*`:** los componentes de shadcn/ui instalados usan primitivas
+de [Base UI](https://base-ui.com) (`@base-ui/react`), no Radix — es lo que la CLI de
+shadcn instala por defecto en este momento. La API difiere un poco de los ejemplos
+"clásicos" de shadcn: `Button` no tiene `asChild`, usa `render`/`nativeButton={false}`
+para renderizarse como otro elemento (ver `components/landing/hero.tsx`), y `RadioGroup`
+funciona con `value`/`onValueChange` controlado vía `Controller` de react-hook-form
+(ver `app/pedir/pedir-form.tsx`).
+
 ## Tests
 
 - `npm test` — tests unitarios (no requieren base de datos).
