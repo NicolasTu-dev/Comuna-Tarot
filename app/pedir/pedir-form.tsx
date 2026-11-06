@@ -11,6 +11,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { motion } from "framer-motion";
+import { StarField } from "@/components/landing/star-field";
+import { revealVariants } from "@/lib/motion-variants";
 
 export default function PedirForm() {
   const searchParams = useSearchParams();
@@ -52,9 +55,17 @@ export default function PedirForm() {
   }
 
   return (
-    <main className="mx-auto max-w-xl px-6 py-16">
-      <h1 className="font-display text-4xl text-primary">Pedí tu lectura</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
+    <main className="relative mx-auto max-w-xl px-6 py-16">
+      <StarField />
+      <motion.div
+        variants={revealVariants}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.6 }}
+        className="relative z-10"
+      >
+        <h1 className="font-display text-4xl text-primary">Pedí tu lectura</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
         <div>
           <Label>Servicio</Label>
           <Controller
@@ -123,6 +134,7 @@ export default function PedirForm() {
           {isSubmitting ? "Procesando..." : "Pagar y enviar consulta"}
         </Button>
       </form>
+      </motion.div>
     </main>
   );
 }
