@@ -10,7 +10,7 @@ describe("Hero", () => {
 
     expect(screen.getByRole("heading", { name: "Tarot aquí" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Pedir lectura/i })).toBeInTheDocument();
-    expect(container.querySelector(".star-field")).not.toBeNull();
+    expect(container.querySelector(".glow-field")).not.toBeNull();
     expect(container.querySelector("svg[aria-hidden='true']")).not.toBeNull();
   });
 });

@@ -3,7 +3,6 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { StarField } from "@/components/landing/star-field";
 import { revealVariants } from "@/lib/motion-variants";
 
 export default function ConfirmacionContent() {
@@ -12,7 +11,6 @@ export default function ConfirmacionContent() {
 
   return (
     <main className="relative mx-auto max-w-xl px-6 py-24 text-center">
-      <StarField />
       <motion.div
         variants={revealVariants}
         initial="hidden"

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TarotCards } from "./tarot-cards";
-import { StarField } from "./star-field";
 import { SunMotif } from "./sun-motif";
 import { revealVariants } from "@/lib/motion-variants";
 
@@ -31,7 +30,6 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
       <motion.div style={{ y: backgroundY }} className="absolute inset-0">
-        <StarField />
         <div className="glow-field" />
       </motion.div>
       <motion.div

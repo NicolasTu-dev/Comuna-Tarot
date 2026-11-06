@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { PageTransition } from "@/components/page-transition";
+import { StarField } from "@/components/landing/star-field";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${cormorant.variable} ${manrope.variable}`}>
       <body>
+        <StarField />
         <PageTransition>{children}</PageTransition>
       </body>
     </html>

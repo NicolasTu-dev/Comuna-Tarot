@@ -91,9 +91,14 @@ export function Services() {
   const [dividerInView, setDividerInView] = useState(false);
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-24">
+    <section className="relative mx-auto max-w-5xl px-6 py-20">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-40"
+        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 40%, var(--secondary), transparent 70%)" }}
+      />
       <motion.div
-        className={`divider-flourish mb-16 ${dividerInView ? "in-view" : ""}`}
+        className={`divider-flourish mb-10 ${dividerInView ? "in-view" : ""}`}
         viewport={revealViewport}
         onViewportEnter={() => setDividerInView(true)}
       >
