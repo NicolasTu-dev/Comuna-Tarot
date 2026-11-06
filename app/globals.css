@@ -301,6 +301,28 @@ body {
   }
 }
 
+/* CTA pulse — a slow breathing glow on the primary call to action */
+.cta-pulse {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 25px -6px oklch(0.8 0.15 83 / 0.6);
+  }
+  50% {
+    box-shadow: 0 0 40px -2px oklch(0.8 0.15 83 / 0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-pulse {
+    animation: none;
+    box-shadow: 0 0 25px -6px oklch(0.8 0.15 83 / 0.6);
+  }
+}
+
 /* Shimmer — a bright pulse that sweeps across the divider's gilt line once */
 .divider-flourish {
   position: relative;

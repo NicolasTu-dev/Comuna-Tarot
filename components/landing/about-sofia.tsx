@@ -24,8 +24,7 @@ export function AboutSofia() {
         transition={{ duration: 0.7 }}
         className="text-center text-lg leading-relaxed text-foreground/80"
       >
-        Sofía lee tarot hace varios años, acompañando a quienes la consultan con
-        honestidad y calidez. Cada lectura es un espacio para pensar una pregunta
+        Sofía lee tarot hace varios años. Cada lectura es un espacio para pensar una pregunta
         puntual o lo que estás atravesando, con las cartas como guía.
       </motion.p>
     </section>
