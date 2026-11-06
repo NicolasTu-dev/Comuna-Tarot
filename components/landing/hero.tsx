@@ -25,10 +25,9 @@ export function Hero() {
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const backgroundY = useTransform(scrollY, [0, 600], [0, 160]);
-  const sunY = useTransform(scrollY, [0, 600], [0, 90]);
 
   return (
-    <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
+    <section className="relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center">
       <motion.div
         style={{
           y: backgroundY,
@@ -41,13 +40,12 @@ export function Hero() {
       </motion.div>
       <motion.div
         style={{
-          y: sunY,
           maskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
           WebkitMaskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
         }}
         animate={reduceMotion ? undefined : { opacity: [0.35, 0.55, 0.35], scale: [1, 1.05, 1] }}
         transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-40"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[480px] w-[480px] max-h-[80%] max-w-[90%] -translate-x-1/2 -translate-y-1/2 opacity-40"
       >
         <SunMotif />
       </motion.div>

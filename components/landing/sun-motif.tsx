@@ -5,7 +5,7 @@ export function SunMotif() {
     <svg
       viewBox="0 0 400 400"
       aria-hidden="true"
-      className="sun-rotate pointer-events-none select-none text-primary"
+      className="sun-rotate pointer-events-none block h-full w-full select-none text-primary"
     >
       <circle
         cx="200"
