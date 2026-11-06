@@ -6,7 +6,7 @@ export interface OrderNotificationInput {
 }
 
 export function buildOrderNotificationMessage(input: OrderNotificationInput): string {
-  return `Nuevo pedido en Tarot aquí 🔮
+  return `Nuevo pedido en Comuna Tarot 🔮
 
 Servicio: ${input.serviceName}
 Cliente: ${input.customerName}

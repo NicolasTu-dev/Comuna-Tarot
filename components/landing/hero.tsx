@@ -7,7 +7,7 @@ import { TarotCards } from "./tarot-cards";
 import { SunMotif } from "./sun-motif";
 import { revealVariants } from "@/lib/motion-variants";
 
-const TITLE = "Tarot aquí";
+const TITLE = "Comuna Tarot";
 
 const titleContainer = {
   hidden: {},

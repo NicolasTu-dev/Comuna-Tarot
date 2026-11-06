@@ -12,6 +12,6 @@ describe("Footer", () => {
     render(<Footer />);
 
     expect(screen.getByRole("link", { name: /Escribir por WhatsApp/ })).toBeInTheDocument();
-    expect(screen.getByText(/Tarot aquí/)).toBeInTheDocument();
+    expect(screen.getByText(/Comuna Tarot/)).toBeInTheDocument();
   });
 });

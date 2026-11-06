@@ -16,7 +16,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Tarot aquí",
+  title: "Comuna Tarot",
   description: "Lecturas de tarot online con Sofía",
 };
 
