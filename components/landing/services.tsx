@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { listServices, isPayable } from "@/lib/services";
@@ -10,12 +11,17 @@ import { revealVariants, revealViewport } from "@/lib/motion-variants";
 
 export function Services() {
   const whatsappNumber = process.env.NEXT_PUBLIC_SOFIA_WHATSAPP_NUMBER!;
+  const [dividerInView, setDividerInView] = useState(false);
 
   return (
     <section className="relative mx-auto max-w-5xl px-6 py-24">
-      <div className="divider-flourish mb-12">
+      <motion.div
+        className={`divider-flourish mb-12${dividerInView ? " in-view" : ""}`}
+        viewport={revealViewport}
+        onViewportEnter={() => setDividerInView(true)}
+      >
         <span className="font-display text-xs tracking-[0.35em] uppercase">Servicios</span>
-      </div>
+      </motion.div>
       <div className="grid gap-8 sm:grid-cols-3">
         {listServices().map((service, i) => (
           <motion.div

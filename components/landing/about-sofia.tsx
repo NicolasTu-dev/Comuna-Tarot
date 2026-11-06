@@ -1,14 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { revealVariants, revealViewport } from "@/lib/motion-variants";
 
 export function AboutSofia() {
+  const [dividerInView, setDividerInView] = useState(false);
+
   return (
     <section className="relative mx-auto max-w-2xl px-6 py-24">
-      <div className="divider-flourish mb-10">
+      <motion.div
+        className={`divider-flourish mb-10${dividerInView ? " in-view" : ""}`}
+        viewport={revealViewport}
+        onViewportEnter={() => setDividerInView(true)}
+      >
         <span className="font-display text-xs tracking-[0.35em] uppercase">Sobre Sofía</span>
-      </div>
+      </motion.div>
       <motion.p
         variants={revealVariants}
         initial="hidden"
