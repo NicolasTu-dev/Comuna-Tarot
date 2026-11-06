@@ -36,13 +36,13 @@ export function Services() {
           >
             <Card className="flex h-full flex-col justify-between border-primary/25 bg-gradient-to-b from-card to-background transition-shadow duration-300 group-hover:border-silver/50 group-hover:shadow-[0_0_30px_-8px_oklch(0.88_0.015_270/0.45)]">
               <CardHeader>
-                <CardTitle className="font-display text-lg tracking-wide">
+                <CardTitle className="font-display text-lg font-semibold tracking-wide">
                   {service.name}
                 </CardTitle>
                 <CardDescription>{service.description}</CardDescription>
               </CardHeader>
               <CardFooter className="flex flex-col items-start gap-3">
-                <p className="font-display text-xl text-primary">
+                <p className="font-display text-xl font-semibold text-primary">
                   {isPayable(service)
                     ? `$${service.priceArs} ARS / $${service.priceUsd} USD`
                     : "A coordinar"}

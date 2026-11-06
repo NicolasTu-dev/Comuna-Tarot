@@ -1,33 +1,100 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import type { MouseEvent as ReactMouseEvent } from "react";
+import { motion, useMotionValue, useReducedMotion } from "framer-motion";
+import {
+  FoolIllustration,
+  TowerIllustration,
+  WheelOfFortuneIllustration,
+  CardBackIllustration,
+} from "./card-illustrations";
 
 const cards = [
+  { name: "El Loco", rotate: -14, x: -64, delay: 0, floatDuration: 4.2, Illustration: FoolIllustration },
+  { name: "La Torre", rotate: 0, x: 0, delay: 0.1, floatDuration: 4.8, Illustration: TowerIllustration },
   {
-    rotate: -14,
-    x: -64,
-    delay: 0,
-    frontGlyph: (
-      <path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" />
-    ),
-    backGlyph: <circle cx="12" cy="12" r="7" />,
-  },
-  {
-    rotate: 0,
-    x: 0,
-    delay: 0.1,
-    frontGlyph: <path d="M20 14.5A8 8 0 1 1 9.5 4a6.4 6.4 0 1 0 10.5 10.5Z" />,
-    backGlyph: <path d="M12 3l0 18M3 12l18 0" />,
-  },
-  {
+    name: "La Rueda de la Fortuna",
     rotate: 14,
     x: 64,
     delay: 0.2,
-    frontGlyph: <path d="M12 3l2.3 5.6L20 11l-5.7 2.4L12 19l-2.3-5.6L4 11l5.7-2.4L12 3Z" />,
-    backGlyph: <path d="M6 6l12 12M18 6L6 18" />,
+    floatDuration: 4.5,
+    Illustration: WheelOfFortuneIllustration,
   },
 ];
+
+type Card = (typeof cards)[number];
+
+function TarotCard({ card, flipped, onToggle }: { card: Card; flipped: boolean; onToggle: () => void }) {
+  const reduceMotion = useReducedMotion();
+  const tiltX = useMotionValue(0);
+  const tiltZ = useMotionValue(0);
+  const Illustration = card.Illustration;
+
+  function handleMouseMove(event: ReactMouseEvent<HTMLButtonElement>) {
+    if (reduceMotion) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
+    const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
+    tiltX.set(offsetY * -14);
+    tiltZ.set(offsetX * 6);
+  }
+
+  function handleMouseLeave() {
+    tiltX.set(0);
+    tiltZ.set(0);
+  }
+
+  return (
+    <motion.button
+      type="button"
+      aria-label={`Carta de tarot decorativa: ${card.name}`}
+      aria-pressed={flipped}
+      onClick={onToggle}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 30, x: card.x, rotate: card.rotate }}
+      animate={{ opacity: 1, y: 0, x: card.x, rotate: card.rotate }}
+      transition={{ duration: 0.9, delay: card.delay, ease: "easeOut" }}
+      whileHover={{ zIndex: 10 }}
+      style={{ transformOrigin: "bottom center", transformStyle: "preserve-3d" }}
+      className="absolute left-1/2 top-0 h-40 w-24 -translate-x-1/2 cursor-pointer sm:h-48 sm:w-28"
+    >
+      <motion.div
+        animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
+        transition={
+          reduceMotion
+            ? undefined
+            : { duration: card.floatDuration, repeat: Infinity, ease: "easeInOut", delay: card.delay }
+        }
+        style={{ rotateX: tiltX, rotateZ: tiltZ, transformStyle: "preserve-3d" }}
+        className="h-full w-full"
+      >
+        <motion.span
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ transformStyle: "preserve-3d" }}
+          className="relative block h-full w-full"
+        >
+          <span
+            style={{ backfaceVisibility: "hidden" }}
+            className="absolute inset-0 flex items-center justify-center rounded-lg border border-primary/60 bg-gradient-to-b from-card to-background p-2.5 shadow-[0_0_30px_-5px_oklch(0.64_0.19_38/0.35)]"
+          >
+            <span className="absolute inset-1.5 rounded-md border border-primary/30" />
+            <Illustration className="h-full w-full text-primary" />
+          </span>
+          <span
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+            className="absolute inset-0 flex items-center justify-center rounded-lg border border-silver/60 bg-gradient-to-b from-card to-background p-2.5 shadow-[0_0_30px_-5px_oklch(0.88_0.015_270/0.35)]"
+          >
+            <span className="absolute inset-1.5 rounded-md border border-silver/30" />
+            <CardBackIllustration className="h-full w-full text-silver" />
+          </span>
+        </motion.span>
+      </motion.div>
+    </motion.button>
+  );
+}
 
 export function TarotCards() {
   const [flipped, setFlipped] = useState<boolean[]>([false, false, false]);
@@ -39,57 +106,7 @@ export function TarotCards() {
   return (
     <div className="relative mx-auto mb-4 h-40 w-full max-w-xs sm:h-48">
       {cards.map((card, i) => (
-        <motion.button
-          type="button"
-          key={i}
-          aria-label="Carta de tarot decorativa"
-          aria-pressed={flipped[i]}
-          onClick={() => toggle(i)}
-          initial={{ opacity: 0, y: 30, x: card.x, rotate: card.rotate }}
-          animate={{ opacity: 1, y: 0, x: card.x, rotate: card.rotate }}
-          transition={{ duration: 0.9, delay: card.delay, ease: "easeOut" }}
-          whileHover={{ y: -12, zIndex: 10 }}
-          style={{ transformOrigin: "bottom center", transformStyle: "preserve-3d" }}
-          className="absolute left-1/2 top-0 h-40 w-24 -translate-x-1/2 cursor-pointer sm:h-48 sm:w-28"
-        >
-          <motion.span
-            animate={{ rotateY: flipped[i] ? 180 : 0 }}
-            transition={{ duration: 0.5 }}
-            style={{ transformStyle: "preserve-3d" }}
-            className="relative block h-full w-full"
-          >
-            <span
-              style={{ backfaceVisibility: "hidden" }}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-lg border border-primary/60 bg-gradient-to-b from-card to-background shadow-[0_0_30px_-5px_oklch(0.64_0.19_38/0.35)]"
-            >
-              <span className="absolute inset-1.5 rounded-md border border-primary/30" />
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                className="size-7 text-primary"
-              >
-                {card.frontGlyph}
-              </svg>
-            </span>
-            <span
-              style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-lg border border-silver/60 bg-gradient-to-b from-card to-background shadow-[0_0_30px_-5px_oklch(0.88_0.015_270/0.35)]"
-            >
-              <span className="absolute inset-1.5 rounded-md border border-silver/30" />
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                className="size-7 text-silver"
-              >
-                {card.backGlyph}
-              </svg>
-            </span>
-          </motion.span>
-        </motion.button>
+        <TarotCard key={card.name} card={card} flipped={flipped[i]} onToggle={() => toggle(i)} />
       ))}
     </div>
   );

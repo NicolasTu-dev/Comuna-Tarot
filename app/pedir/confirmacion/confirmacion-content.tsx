@@ -20,7 +20,7 @@ export default function ConfirmacionContent() {
         transition={{ duration: 0.6 }}
         className="relative z-10"
       >
-        <h1 className="font-display text-4xl text-primary">¡Gracias por tu pedido!</h1>
+        <h1 className="font-display text-4xl font-semibold text-primary">¡Gracias por tu pedido!</h1>
         <p className="mt-4 text-foreground/80">
           Recibimos tu pago{orderId ? ` (pedido #${orderId})` : ""}. Sofía va a leer tu
           consulta y te va a responder por WhatsApp con la foto de las cartas y su

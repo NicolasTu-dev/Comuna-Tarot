@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { TarotCards } from "./tarot-cards";
 import { StarField } from "./star-field";
@@ -9,13 +9,22 @@ import { SunMotif } from "./sun-motif";
 import { revealVariants } from "@/lib/motion-variants";
 
 export function Hero() {
+  const { scrollY } = useScroll();
+  const backgroundY = useTransform(scrollY, [0, 600], [0, 160]);
+  const sunY = useTransform(scrollY, [0, 600], [0, 90]);
+
   return (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-      <StarField />
-      <div className="glow-field" />
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-40">
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0">
+        <StarField />
+        <div className="glow-field" />
+      </motion.div>
+      <motion.div
+        style={{ y: sunY }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-40"
+      >
         <SunMotif />
-      </div>
+      </motion.div>
 
       <div className="relative z-10 flex flex-col items-center">
         <TarotCards />
@@ -35,7 +44,7 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-display mt-3 text-5xl tracking-wide text-primary sm:text-7xl"
+          className="font-display mt-3 text-5xl font-semibold tracking-wide text-primary sm:text-7xl"
         >
           Tarot aquí
         </motion.h1>

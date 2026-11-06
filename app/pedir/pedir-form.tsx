@@ -64,7 +64,7 @@ export default function PedirForm() {
         transition={{ duration: 0.6 }}
         className="relative z-10"
       >
-        <h1 className="font-display text-4xl text-primary">Pedí tu lectura</h1>
+        <h1 className="font-display text-4xl font-semibold text-primary">Pedí tu lectura</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-6">
         <div>
           <Label>Servicio</Label>

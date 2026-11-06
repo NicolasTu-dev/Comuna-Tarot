@@ -64,7 +64,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: var(--font-cinzel);
+  --font-display: var(--font-cormorant);
   --font-sans: var(--font-manrope);
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -199,6 +199,105 @@ body {
   .star-field__layer--slow {
     animation: none;
     opacity: 0.4;
+  }
+}
+
+/* Nebula — large soft color blobs drifting slowly behind the stars, deeper than .glow-field */
+.star-field__nebula {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  max-width: 760px;
+  max-height: 760px;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.25;
+  animation: nebula-drift 34s ease-in-out infinite alternate;
+}
+
+.star-field__nebula--one {
+  top: -20%;
+  right: -15%;
+  background: radial-gradient(circle, var(--magenta), transparent 70%);
+}
+
+.star-field__nebula--two {
+  bottom: -25%;
+  left: -20%;
+  background: radial-gradient(circle, var(--secondary), transparent 70%);
+  animation-duration: 40s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes nebula-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-5%, 6%) scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-field__nebula {
+    animation: none;
+  }
+}
+
+/* Shooting star — a brief streak that crosses the sky every so often */
+.star-field__shooting-star {
+  position: absolute;
+  top: 15%;
+  left: -10%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--silver);
+  box-shadow: 0 0 6px 1px var(--silver);
+  opacity: 0;
+  animation: shoot 7s linear infinite;
+}
+
+.star-field__shooting-star::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--silver));
+  transform: translateY(-50%);
+}
+
+.star-field__shooting-star--one {
+  animation-delay: 1.5s;
+}
+
+.star-field__shooting-star--two {
+  top: 40%;
+  animation-delay: 5.5s;
+  animation-duration: 9s;
+}
+
+@keyframes shoot {
+  0%,
+  90%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  2% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+    transform: translate(130vw, 55vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-field__shooting-star {
+    display: none;
   }
 }
 
