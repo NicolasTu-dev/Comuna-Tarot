@@ -61,7 +61,7 @@ function TarotCard({ card, flipped, onToggle }: { card: Card; flipped: boolean; 
       className="absolute left-1/2 top-0 h-40 w-24 -translate-x-1/2 cursor-pointer sm:h-48 sm:w-28"
     >
       <motion.div
-        animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
+        animate={reduceMotion ? undefined : { y: [0, -16, 0], rotate: [0, card.rotate >= 0 ? 3 : -3, 0] }}
         transition={
           reduceMotion
             ? undefined

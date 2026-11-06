@@ -28,8 +28,8 @@ function ServiceCard({
     const rect = event.currentTarget.getBoundingClientRect();
     const offsetX = (event.clientX - rect.left) / rect.width - 0.5;
     const offsetY = (event.clientY - rect.top) / rect.height - 0.5;
-    tiltX.set(offsetY * -8);
-    tiltY.set(offsetX * 8);
+    tiltX.set(offsetY * -6);
+    tiltY.set(offsetX * 6);
   }
 
   function handleMouseLeave() {
@@ -50,7 +50,10 @@ function ServiceCard({
       style={{ rotateX: tiltX, rotateY: tiltY, transformStyle: "preserve-3d" }}
       className="group"
     >
-      <Card className="flex h-full flex-col justify-between border-primary/25 bg-gradient-to-b from-card to-background transition-shadow duration-300 group-hover:border-silver/50 group-hover:shadow-[0_0_30px_-8px_oklch(0.88_0.015_270/0.45)]">
+      <Card
+        style={{ animationDelay: `${index * 0.6}s` }}
+        className="card-breathe flex h-full flex-col justify-between border-primary/25 bg-gradient-to-b from-card to-background transition-shadow duration-300 group-hover:border-silver/50 group-hover:shadow-[0_0_30px_-8px_oklch(0.88_0.015_270/0.45)]"
+      >
         <CardHeader>
           <CardTitle className="font-display text-lg font-semibold tracking-wide">{service.name}</CardTitle>
           <CardDescription>{service.description}</CardDescription>
@@ -90,13 +93,13 @@ export function Services() {
   return (
     <section className="relative mx-auto max-w-5xl px-6 py-24">
       <motion.div
-        className={`divider-flourish mb-12${dividerInView ? " in-view" : ""}`}
+        className={`divider-flourish mb-16${dividerInView ? " in-view" : ""}`}
         viewport={revealViewport}
         onViewportEnter={() => setDividerInView(true)}
       >
         <span className="font-display text-xs tracking-[0.35em] uppercase">Servicios</span>
       </motion.div>
-      <div className="grid gap-8 sm:grid-cols-3">
+      <div className="grid gap-10 sm:grid-cols-3">
         {listServices().map((service, i) => (
           <ServiceCard key={service.id} service={service} index={i} whatsappNumber={whatsappNumber} />
         ))}

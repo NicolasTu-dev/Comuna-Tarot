@@ -14,7 +14,7 @@ export function Footer() {
         Escribir por WhatsApp
       </a>
       <p className="font-display mt-4 text-xs tracking-[0.3em] text-foreground/60 uppercase">
-        Tarot aquí 🔑
+        Tarot aquí <span className="key-bob inline-block">🔑</span>
       </p>
     </footer>
   );

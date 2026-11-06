@@ -301,18 +301,20 @@ body {
   }
 }
 
-/* CTA pulse — a slow breathing glow on the primary call to action */
+/* CTA pulse — a slow breathing glow + scale on the primary call to action */
 .cta-pulse {
-  animation: pulse-glow 3s ease-in-out infinite;
+  animation: pulse-glow 2.4s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 25px -6px oklch(0.8 0.15 83 / 0.6);
+    box-shadow: 0 0 22px -4px oklch(0.8 0.15 83 / 0.55);
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 40px -2px oklch(0.8 0.15 83 / 0.9);
+    box-shadow: 0 0 48px 4px oklch(0.8 0.15 83 / 0.95);
+    transform: scale(1.045);
   }
 }
 
@@ -320,6 +322,68 @@ body {
   .cta-pulse {
     animation: none;
     box-shadow: 0 0 25px -6px oklch(0.8 0.15 83 / 0.6);
+  }
+}
+
+/* Sun motif — slow continuous rotation, like a sundial turning */
+.sun-rotate {
+  animation: sun-spin 50s linear infinite;
+}
+
+@keyframes sun-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-rotate {
+    animation: none;
+  }
+}
+
+/* Footer key — a small continuous bob */
+.key-bob {
+  animation: key-bob 2.4s ease-in-out infinite;
+}
+
+@keyframes key-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(-8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key-bob {
+    animation: none;
+  }
+}
+
+/* Service card halo — a continuous, gently staggered breathing glow (no hover needed) */
+.card-breathe {
+  animation: card-breathe 4.5s ease-in-out infinite;
+}
+
+@keyframes card-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0px -10px oklch(0.8 0.15 83 / 0);
+  }
+  50% {
+    box-shadow: 0 0 26px -6px oklch(0.8 0.15 83 / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-breathe {
+    animation: none;
   }
 }
 
@@ -336,14 +400,19 @@ body {
 
 .divider-flourish.in-view::before,
 .divider-flourish.in-view::after {
-  animation: shimmer 1.2s ease-out forwards;
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 @keyframes shimmer {
-  from {
+  0%,
+  15% {
     background-position: 200% 0;
   }
-  to {
+  50% {
+    background-position: -200% 0;
+  }
+  85%,
+  100% {
     background-position: -200% 0;
   }
 }
