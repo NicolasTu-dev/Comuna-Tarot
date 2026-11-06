@@ -10,7 +10,7 @@ export function AboutSofia() {
   return (
     <section className="relative mx-auto max-w-2xl px-6 py-24">
       <motion.div
-        className={`divider-flourish mb-10${dividerInView ? " in-view" : ""}`}
+        className={`divider-flourish mb-10 ${dividerInView ? "in-view" : ""}`}
         viewport={revealViewport}
         onViewportEnter={() => setDividerInView(true)}
       >

@@ -93,7 +93,7 @@ export function Services() {
   return (
     <section className="relative mx-auto max-w-5xl px-6 py-24">
       <motion.div
-        className={`divider-flourish mb-16${dividerInView ? " in-view" : ""}`}
+        className={`divider-flourish mb-16 ${dividerInView ? "in-view" : ""}`}
         viewport={revealViewport}
         onViewportEnter={() => setDividerInView(true)}
       >
