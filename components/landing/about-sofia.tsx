@@ -1,17 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { revealVariants, revealViewport } from "@/lib/motion-variants";
 
 export function AboutSofia() {
   return (
-    <section className="mx-auto max-w-2xl px-6 py-24">
+    <section className="relative mx-auto max-w-2xl px-6 py-24">
       <div className="divider-flourish mb-10">
         <span className="font-display text-xs tracking-[0.35em] uppercase">Sobre Sofía</span>
       </div>
       <motion.p
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
+        variants={revealVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={revealViewport}
         transition={{ duration: 0.7 }}
         className="text-center text-lg leading-relaxed text-foreground/80"
       >
