@@ -91,7 +91,7 @@ export function Services() {
   const [dividerInView, setDividerInView] = useState(false);
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 py-20">
+    <section className="relative mx-auto max-w-5xl px-6 pt-10 pb-20">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 opacity-40"

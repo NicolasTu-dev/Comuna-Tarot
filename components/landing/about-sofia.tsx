@@ -8,7 +8,7 @@ export function AboutSofia() {
   const [dividerInView, setDividerInView] = useState(false);
 
   return (
-    <section className="relative mx-auto max-w-2xl px-6 py-20">
+    <section className="relative mx-auto max-w-2xl px-6 pt-20 pb-10">
       <motion.div
         className={`divider-flourish mb-10 ${dividerInView ? "in-view" : ""}`}
         viewport={revealViewport}
