@@ -29,11 +29,22 @@ export function Hero() {
 
   return (
     <section className="relative flex min-h-[90vh] flex-col items-center justify-center overflow-hidden px-6 text-center">
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0">
+      <motion.div
+        style={{
+          y: backgroundY,
+          maskImage: "linear-gradient(to bottom, transparent, black 20%, black 65%, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, transparent, black 20%, black 65%, transparent)",
+        }}
+        className="absolute inset-0"
+      >
         <div className="glow-field" />
       </motion.div>
       <motion.div
-        style={{ y: sunY }}
+        style={{
+          y: sunY,
+          maskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(circle at center, black 35%, transparent 70%)",
+        }}
         animate={reduceMotion ? undefined : { opacity: [0.35, 0.55, 0.35], scale: [1, 1.05, 1] }}
         transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="pointer-events-none absolute left-1/2 top-1/2 h-[140%] w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-40"
